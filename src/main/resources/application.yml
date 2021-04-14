@@ -1,2 +1,2 @@
-gorest:
-  url:https://gorest.co.in/public-api/users
+users:
+  user-url: https://gorest.co.in/public-api/users

@@ -3,6 +3,7 @@ package sshardul.com.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,8 +17,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 public class RestApiConsumeController {
 	
-	//@Value("${gorest.url}")
-	//private String url;
+	@Value("${users.user-url}")
+	private String url;
 
 	private RestTemplate restTemplate = new RestTemplate();
 	ObjectMapper mapper = new ObjectMapper();
@@ -25,7 +26,7 @@ public class RestApiConsumeController {
 	@RequestMapping(method = RequestMethod.GET, value = "/api/get")
 	public List<String> getDetails() throws JsonMappingException, JsonProcessingException {
 		List<String> lst = new ArrayList<>();
-		String object = restTemplate.getForObject("https://gorest.co.in/public-api/users", String.class);
+		String object = restTemplate.getForObject(url, String.class);
 		JsonNode data = mapper.readTree(object).findValue("data");
 		data.forEach( d -> {
 			lst.add("id::"+d.findValue("id").asInt()+" name::"+d.findValue("name").asText()+" gender::"+d.findValue("gender").asText());
